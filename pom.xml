@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.openenglish</groupId>
+    <artifactId>sleepymongoose</artifactId>
+    <version>0.1-GIT</version>
+    <!--
+     Packaging type needs to be updated, I'm using JAR today so this will build but this generates
+     a JAR file and we don't need it.
+    -->
+    <packaging>pom</packaging>
+
+    <name>Sleepy.Mongoose</name>
+    <description>REST Interface for Mongodb</description>
+    <url>http://maven.apache.org</url>
+
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>OpenEnglish local artifacts repository</name>
+            <url>http://repository.oe-sys.com/artifactory/libs-release-local</url>
+        </repository>
+    </distributionManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>oe-jdeb</artifactId>
+                <groupId>org.vafer</groupId>
+                <version>1.1.8</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jdeb</goal>
+                        </goals>
+                        <configuration>
+                            <verbose>true</verbose>
+                            <controlDir>${basedir}/src/deb/control</controlDir>
+                            <dataSet>
+
+                                <!--
+                                Grab all debian control files
+                                -->
+                                <data>
+                                    <src>${basedir}/src/deb/opt</src>
+                                    <type>directory</type>
+                                    <excludes>**/.DS_Store</excludes>
+                                    <mapper>
+                                        <type>perm</type>
+                                        <prefix>/opt</prefix>
+                                        <user>ubuntu</user>
+                                        <group>ubuntu</group>
+                                    </mapper>
+                                </data>
+
+                                <!--
+                                Any script that needs to be packaged into a
+                                -->
+                                <data>
+                                    <src>${project.basedir}/src/deb/etc/init/sleepymongoose.conf</src>
+                                    <type>file</type>
+                                    <mapper>
+                                        <type>perm</type>
+                                        <prefix>/etc/init</prefix>
+                                        <user>ubuntu</user>
+                                        <group>ubuntu</group>
+                                        <filemode>755</filemode>
+                                    </mapper>
+                                </data>
+
+                            </dataSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

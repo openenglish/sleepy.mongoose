@@ -1,0 +1,8 @@
+Package: Sleepy.Mongoose
+Version: 0.1
+Section: misc
+Priority: low
+Architecture: all
+Description: REST interface for mongodb
+Depends: bash, python, mongodb, python-pymongo
+Maintainer: forrest.loomis@openenglish.com
